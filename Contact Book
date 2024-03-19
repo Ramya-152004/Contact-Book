@@ -1,0 +1,72 @@
+class Contact:
+    def __init__(self, name, phone_number):
+        self.name = name
+        self.phone_number = phone_number
+
+def add_contact(contacts):
+    name = input("Enter name: ")
+    phone_number = input("Enter phone number: ")
+    contacts[name] = phone_number
+    print("Contact added successfully.")
+
+def view_contacts(contacts):
+    if not contacts:
+        print("No contacts found.")
+    else:
+        print("Contact List:")
+        for name, phone_number in contacts.items():
+            print(f"Name: {name}, Phone: {phone_number}")
+
+def search_contact(contacts, search_query):
+    found_contacts = {}
+    for name, phone_number in contacts.items():
+        if search_query.lower() in name.lower() or search_query in phone_number:
+            found_contacts[name] = phone_number
+    return found_contacts
+
+def delete_contact(contacts, search_query):
+    found_contacts = search_contact(contacts, search_query)
+    if not found_contacts:
+        print("Contact not found.")
+    else:
+        for name in found_contacts:
+            del contacts[name]
+        print("Contact deleted.")
+
+def main():
+    contacts = {}
+
+    while True:
+        print("\nContact Management System")
+        print("1. Add Contact")
+        print("2. View Contacts")
+        print("3. Search Contact")
+        print("4. Delete Contact")
+        print("5. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            add_contact(contacts)
+        elif choice == '2':
+            view_contacts(contacts)
+        elif choice == '3':
+            search_query = input("Enter name or phone number to search: ")
+            found_contacts = search_contact(contacts, search_query)
+            if found_contacts:
+                print("Found Contacts:")
+                for name, phone_number in found_contacts.items():
+                    print(f"Name: {name}, Phone: {phone_number}")
+            else:
+                print("No matching contacts found.")
+        elif choice == '4':
+            search_query = input("Enter name or phone number of contact to delete: ")
+            delete_contact(contacts, search_query)
+        elif choice == '5':
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
